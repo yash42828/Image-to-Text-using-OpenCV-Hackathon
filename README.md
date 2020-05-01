@@ -13,8 +13,8 @@ I had used two preprocessing method. This switch is optional and it accept eithe
 ## Run the project
 - `python ocr.py --image example_03.jpg`
 
-##Screenshots
-
+## Screenshots
+![Image](./4.png)
 
 ## document-scanner-using-opencv
 Building a document scanner with OpenCV can be accomplished in just three simple steps:
@@ -30,10 +30,12 @@ Step 3: Apply a perspective transform to obtain the top-down view of the documen
 - `pip install opencv-python`
 
 ## Run the project
-- `python scan.py --image page.jpg'
+- `python scan.py --image page.jpg`
 
 ## Screenshots
-
+![Image](./1.png)
+![Image](./2.png)
+![Image](./3.png)
 
 Just follow☝️ me and Star⭐ my repository
 
