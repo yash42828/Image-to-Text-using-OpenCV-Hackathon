@@ -11,6 +11,7 @@ I had used two preprocessing method. This switch is optional and it accept eithe
 - `pip install pytesseract`
 
 ## Run the project
+- `python ocr.py --image (your-image-name)`
 - `python ocr.py --image example_03.jpg`
 
 ## Screenshots
@@ -30,6 +31,7 @@ Step 3: Apply a perspective transform to obtain the top-down view of the documen
 - `pip install opencv-python`
 
 ## Run the project
+- `python scan.py --image (your-image-name)`
 - `python scan.py --image page.jpg`
 
 ## Screenshots
