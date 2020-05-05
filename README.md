@@ -31,8 +31,7 @@ Step 3: Apply a perspective transform to obtain the top-down view of the documen
 - `pip install opencv-python`
 
 ## Run the project
-- `python scan.py --image (your-image-name)`
-- `python scan.py --image page.jpg`
+- `python scan.py
 
 ## Screenshots
 ![Image](./1.png)
