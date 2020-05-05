@@ -1,25 +1,62 @@
 # USAGE
-# python scan.py --image images/page.jpg
+# python scan.py
 
 # import the necessary packages
 from lib.transform import four_point_transform
 from skimage.filters import threshold_local
 import numpy as np
-import argparse
 import cv2
 import imutils
 import os
-import pytesseract 
+import pytesseract
+import tkinter
+from tkinter import filedialog
 
-# construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required = True,
-	help = "Path to the image to be scanned")
-args = vars(ap.parse_args())
+# Path of working folder on Disk
+src_path = "./"
+def get_string(img_path):
+    # Read image with opencv
+    img = cv2.imread(img_path)
+    
+    # Convert to gray
+    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+    # Apply dilation and erosion to remove some noise
+    kernel = np.ones((1, 1), np.uint8)
+    img = cv2.dilate(img, kernel, iterations=1)
+    img = cv2.erode(img, kernel, iterations=1)
+
+    # Apply threshold to get image with only black and white
+    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 2)
+
+    # Recognize text with tesseract for python
+    result = pytesseract.image_to_string(img)
+
+    return(result)
+
+#initiate tkinker and hide window 
+main_win = tkinter.Tk() 
+main_win.withdraw()
+
+main_win.overrideredirect(True)
+main_win.geometry('0x0+0+0')
+
+main_win.deiconify()
+main_win.lift()
+main_win.focus_force()
+
+#open file selector 
+main_win.sourceFile = filedialog.askopenfilename(filetypes = (("Image Files",("*.jpg","*.png","*.jpeg")),("All Files","*")),parent=main_win, initialdir= "/",
+title='Please select a image file')
+
+#close window after selection 
+main_win.destroy()
+
+img_path = main_win.sourceFile
 
 # load the image and compute the ratio of the old height
 # to the new height, clone it, and resize it
-image = cv2.imread(args["image"])
+image = cv2.imread(img_path)
 ratio = image.shape[0] / 500.0
 orig = image.copy()
 image = imutils.resize(image, height = 500)
@@ -78,12 +115,11 @@ print("STEP 3: Apply perspective transform")
 filename = "{}.png".format(os.getpid())
 cv2.imwrite(filename, warped)
 # Open the file in append mode
-fname = args["image"].split('.')[0]+'.txt'
+fname = img_path.split('.')[0]+'.txt'
 file = open(fname, "a") 
   
 # Apply OCR on the cropped image 
-text = pytesseract.image_to_string(filename) 
-  
+text = get_string(img_path) 
 # Appending the text into file 
 file.write(text) 
 file.write("\n") 
